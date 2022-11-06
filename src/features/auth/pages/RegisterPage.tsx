@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { usersApiSlice } from 'features/users/usersApiSlice';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useRegisterMutation } from '../authApiSlice';
 
@@ -80,6 +81,17 @@ const RegisterPage = () => {
       navigate('/');
     }
   }, [isSuccess, navigate, reset]);
+
+  const { data: currentUser, isFetching } =
+    usersApiSlice.endpoints.getCurrentUser.useQueryState();
+
+  if (isFetching) {
+    return <p>Loading...</p>;
+  }
+
+  if (currentUser) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <form
