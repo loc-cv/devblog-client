@@ -2,8 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usersApiSlice } from 'features/users/usersApiSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom';
 import type { Location } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useLoginMutation } from '../authApiSlice';
 
