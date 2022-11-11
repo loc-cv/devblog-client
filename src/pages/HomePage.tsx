@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const HomePage = () => {
+export const HomePage = () => {
   return (
     <main>
       <h1 className="text-4xl font-bold">Home Page</h1>
@@ -21,5 +21,3 @@ const HomePage = () => {
     </main>
   );
 };
-
-export default HomePage;

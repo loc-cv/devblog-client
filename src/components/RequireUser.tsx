@@ -1,7 +1,7 @@
 import { usersApiSlice } from 'features/users/usersApiSlice';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-const RequireUser = ({ allowedRoles }: { allowedRoles: string[] }) => {
+export const RequireUser = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const location = useLocation();
 
   const { data: currentUser, isFetching } =
@@ -21,5 +21,3 @@ const RequireUser = ({ allowedRoles }: { allowedRoles: string[] }) => {
 
   return <Navigate to="/login" state={{ from: location }} replace />;
 };
-
-export default RequireUser;

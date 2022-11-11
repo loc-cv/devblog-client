@@ -49,7 +49,7 @@ const registerFormSchema = z
 
 export type RegisterFormInput = z.infer<typeof registerFormSchema>;
 
-const RegisterPage = () => {
+export const RegisterPage = () => {
   const methods = useForm<RegisterFormInput>({
     resolver: zodResolver(registerFormSchema),
   });
@@ -167,5 +167,3 @@ const RegisterPage = () => {
     </form>
   );
 };
-
-export default RegisterPage;

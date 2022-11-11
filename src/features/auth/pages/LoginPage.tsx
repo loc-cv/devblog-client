@@ -20,7 +20,7 @@ const loginFormSchema = z.object({
 
 export type LoginFormInput = z.infer<typeof loginFormSchema>;
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const methods = useForm<LoginFormInput>({
     resolver: zodResolver(loginFormSchema),
   });
@@ -115,5 +115,3 @@ const LoginPage = () => {
     </form>
   );
 };
-
-export default LoginPage;

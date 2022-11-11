@@ -1,10 +1,10 @@
 import { Layout } from 'components/Layout';
-import RequireUser from 'components/RequireUser';
-import LoginPage from 'features/auth/pages/LoginPage';
-import RegisterPage from 'features/auth/pages/RegisterPage';
-import DashboardPage from 'pages/DashboardPage';
-import HomePage from 'pages/HomePage';
-import ProfilePage from 'pages/ProfilePage';
+import { RequireUser } from 'components/RequireUser';
+import { LoginPage } from 'features/auth/pages/LoginPage';
+import { RegisterPage } from 'features/auth/pages/RegisterPage';
+import { DashboardPage } from 'pages/DashboardPage';
+import { HomePage } from 'pages/HomePage';
+import { ProfilePage } from 'pages/ProfilePage';
 import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
