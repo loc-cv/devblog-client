@@ -1,23 +1,34 @@
-import { Link } from 'react-router-dom';
+import { PostList } from 'features/posts/components/PostList';
+import { useGetPostsQuery } from 'features/posts/postsApiSlice';
+import { Fragment } from 'react';
 
 export const HomePage = () => {
+  const {
+    data: postsQueryResult,
+    isLoading,
+    error,
+  } = useGetPostsQuery({}, { refetchOnMountOrArgChange: true });
+
+  const renderPostList = () => {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+    if (error) {
+      return <p>Something went wrong :(</p>;
+    }
+    if (postsQueryResult) {
+      return <PostList posts={postsQueryResult.data} />;
+    }
+    return null;
+  };
+
   return (
-    <main>
-      <h1 className="text-4xl font-bold">Home Page</h1>
-      <ul>
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-      </ul>
-    </main>
+    <Fragment>
+      <div className="mb-5">
+        <h1 className="mb-4 text-7xl font-bold">Latest</h1>
+        <p className="">A blog created with React.js and Tailwind.css</p>
+      </div>
+      <main>{renderPostList()}</main>
+    </Fragment>
   );
 };

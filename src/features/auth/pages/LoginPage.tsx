@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usersApiSlice } from 'features/users/usersApiSlice';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { Location } from 'react-router-dom';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -34,15 +34,7 @@ export const LoginPage = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [login, { isLoading, isSuccess }] = useLoginMutation();
-
-  const onSubmit = async (data: LoginFormInput) => {
-    try {
-      await login(data).unwrap();
-    } catch (error: any) {
-      setErrorMessage(error.data?.message);
-    }
-  };
+  const [login, { isLoading }] = useLoginMutation();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,12 +47,15 @@ export const LoginPage = () => {
     return '/';
   }, [location]);
 
-  useEffect(() => {
-    if (isSuccess) {
+  const onSubmit = async (data: LoginFormInput) => {
+    try {
+      await login(data).unwrap();
       reset();
       navigate(from);
+    } catch (error: any) {
+      setErrorMessage(error.data?.message || 'Something went wrong');
     }
-  }, [from, isSuccess, navigate, reset]);
+  };
 
   const { data: currentUser, isFetching } =
     usersApiSlice.endpoints.getCurrentUser.useQueryState();

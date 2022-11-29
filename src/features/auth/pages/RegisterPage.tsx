@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usersApiSlice } from 'features/users/usersApiSlice';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -53,6 +53,9 @@ export const RegisterPage = () => {
   const methods = useForm<RegisterFormInput>({
     resolver: zodResolver(registerFormSchema),
   });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [registerUser, { isLoading }] = useRegisterMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -61,26 +64,15 @@ export const RegisterPage = () => {
     formState: { errors, isSubmitting },
   } = methods;
 
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const [registerUser, { isLoading, isSuccess }] = useRegisterMutation();
-
   const onSubmit = async (data: RegisterFormInput) => {
     try {
       await registerUser(data).unwrap();
-    } catch (error: any) {
-      setErrorMessage(error.data.message);
-    }
-  };
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isSuccess) {
       reset();
       navigate('/');
+    } catch (error: any) {
+      setErrorMessage(error.data?.message || 'Something went wrong');
     }
-  }, [isSuccess, navigate, reset]);
+  };
 
   const { data: currentUser, isFetching } =
     usersApiSlice.endpoints.getCurrentUser.useQueryState();
