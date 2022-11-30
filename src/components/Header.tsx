@@ -48,14 +48,14 @@ export const Header = () => {
               <div className="flex items-center text-gray-700">
                 {currentUser.role === 'admin' && (
                   <Link to="/dashboard">
-                    <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 md:flex">
+                    <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 sm:flex">
                       <ChartBarSquareIcon className="mr-1 h-6 w-6" />
                       Dashboard
                     </span>
                   </Link>
                 )}
                 <Link to="/posts/new">
-                  <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 md:mr-4 md:flex">
+                  <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 sm:mr-4 sm:flex">
                     <PencilSquareIcon className="mr-1 h-6 w-6" />
                     Create post
                   </span>
@@ -101,7 +101,12 @@ export const Header = () => {
                       </Link>
 
                       {/* Options */}
-                      {DropdownOptions.map(Option => (
+                      {DropdownOptions.filter(option => {
+                        if (currentUser.role !== 'admin') {
+                          return option.text !== 'Dashboard';
+                        }
+                        return true;
+                      }).map(Option => (
                         <Link to={Option.url} key={Option.text}>
                           <Menu.Item
                             as="div"
@@ -128,17 +133,25 @@ export const Header = () => {
                 </Menu>
               </div>
             ) : (
-              <div className="flex gap-2 text-xl font-semibold text-gray-800">
-                <Link to="/login">
-                  <span className="rounded p-2 px-4 underline hover:underline-offset-8">
-                    Sign in
-                  </span>
+              <div>
+                <Link
+                  to="/register"
+                  className="rounded bg-black p-2 px-4 text-xl font-semibold text-gray-100 sm:hidden"
+                >
+                  Join us
                 </Link>
-                <Link to="/register">
-                  <span className="rounded bg-black p-2 px-4 text-gray-100">
-                    Sign up
-                  </span>
-                </Link>
+                <div className="hidden gap-2 text-xl font-semibold text-gray-800 sm:flex">
+                  <Link to="/login">
+                    <span className="rounded p-2 px-4 underline hover:underline-offset-8">
+                      Sign in
+                    </span>
+                  </Link>
+                  <Link to="/register">
+                    <span className="rounded bg-black p-2 px-4 text-gray-100">
+                      Sign up
+                    </span>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
