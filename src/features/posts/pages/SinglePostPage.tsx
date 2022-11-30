@@ -32,7 +32,7 @@ export const SinglePostPage = () => {
     return (
       <main>
         {/* Author and post update */}
-        <div className="mb-10 flex items-center gap-3">
+        <div className="mb-5 flex items-center gap-3">
           <div>
             <img
               src={post.author.profilePhoto}
@@ -53,10 +53,12 @@ export const SinglePostPage = () => {
         </div>
 
         {/* Post title */}
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">{post.title}</h1>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900 md:text-4xl">
+          {post.title}
+        </h1>
 
         {/* Post tags */}
-        <div className="mb-5 flex gap-1">
+        <div className="mb-10 flex gap-1 border-b-2 border-b-gray-200 pb-10">
           {post.tags.map(tag => (
             <PostTag key={tag.name} name={tag.name} />
           ))}
