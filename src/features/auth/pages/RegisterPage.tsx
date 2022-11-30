@@ -90,18 +90,16 @@ export const RegisterPage = () => {
       <h1 className="text-center text-xl font-bold text-gray-800">
         Create new account
       </h1>
-      <form
-        className="flex flex-col gap-3 px-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         {errorMessage && (
           <p className="rounded bg-red-300 p-2 px-4 text-base text-gray-900">
             {errorMessage}
           </p>
         )}
 
-        <div className="flex justify-between">
-          <div className="flex max-w-[49%] flex-col">
+        <div className="flex justify-between sm:gap-2">
+          {/* <div className="flex max-w-[49%] flex-col sm:max-w-[50%] sm:flex-1"> */}
+          <div className="flex w-[49%] flex-col">
             <label htmlFor="firstName" className="text-gray-800">
               First name
             </label>
@@ -117,7 +115,8 @@ export const RegisterPage = () => {
             <p className="text-sm text-red-500">{errors.firstName?.message}</p>
           </div>
 
-          <div className="flex max-w-[49%] flex-col">
+          {/* <div className="flex max-w-[49%] flex-col sm:max-w-[50%] sm:flex-1"> */}
+          <div className="flex w-[49%] flex-col">
             <label htmlFor="lastName" className="text-gray-800">
               Last name
             </label>

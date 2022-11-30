@@ -73,10 +73,7 @@ export const LoginPage = () => {
       <h1 className="text-center text-xl font-bold text-gray-800">
         Log in to your DevBlog account
       </h1>
-      <form
-        className="flex flex-col gap-3 px-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         {errorMessage && (
           <p className="rounded bg-red-300 p-2 px-4 text-base text-gray-900">
             {errorMessage}

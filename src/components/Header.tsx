@@ -46,14 +46,14 @@ export const Header = () => {
           <div>
             {currentUser ? (
               <div className="flex items-center text-gray-700">
-                {currentUser.role === 'admin' && (
-                  <Link to="/dashboard">
-                    <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 sm:flex">
-                      <ChartBarSquareIcon className="mr-1 h-6 w-6" />
-                      Dashboard
-                    </span>
-                  </Link>
-                )}
+                {/* {currentUser.role === 'admin' && ( */}
+                {/*   <Link to="/dashboard"> */}
+                {/*     <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 sm:flex"> */}
+                {/*       <ChartBarSquareIcon className="mr-1 h-6 w-6" /> */}
+                {/*       Dashboard */}
+                {/*     </span> */}
+                {/*   </Link> */}
+                {/* )} */}
                 <Link to="/posts/new">
                   <span className="hidden items-center rounded p-2 px-4 text-xl underline underline-offset-4 hover:bg-cyan-100 sm:mr-4 sm:flex">
                     <PencilSquareIcon className="mr-1 h-6 w-6" />
