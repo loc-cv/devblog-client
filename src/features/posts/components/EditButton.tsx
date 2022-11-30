@@ -2,6 +2,7 @@ import { IPost } from 'features/api/interfaces';
 import { usersApiSlice } from 'features/users/usersApiSlice';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { PencilSquareIcon } from '@heroicons/react/20/solid';
 
 type EditButtonProps = {
   post: IPost;
@@ -16,7 +17,10 @@ export const EditButton = ({ post }: EditButtonProps) => {
       return (
         <Fragment>
           <Link to={`/posts/${post._id}/edit`}>
-            <button>Edit</button>
+            <button className="flex gap-1 rounded bg-gray-100 p-1 px-2 text-gray-800 hover:bg-gray-200">
+              <PencilSquareIcon className="w-4" />
+              <span className="text-sm">Edit</span>
+            </button>
           </Link>
         </Fragment>
       );

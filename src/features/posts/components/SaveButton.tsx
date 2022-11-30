@@ -1,3 +1,4 @@
+import { BookmarkIcon, BookmarkSlashIcon } from '@heroicons/react/20/solid';
 import {
   useAddPostToSavedListMutation,
   useRemovePostFromSavedListMutation,
@@ -35,10 +36,22 @@ export const SaveButton = ({ postId }: SaveButtonProps) => {
   };
 
   if (currentUser) {
-    if (currentUser.savedPosts.includes(postId)) {
-      return <button onClick={handleUnsave}>Unsave</button>;
-    }
-    return <button onClick={handleSave}>Save</button>;
+    const isSaved = currentUser.savedPosts.includes(postId);
+    return (
+      <button
+        onClick={isSaved ? handleUnsave : handleSave}
+        className="rounded bg-gray-100 p-1 px-2 hover:bg-gray-200"
+      >
+        <span className="flex gap-1 text-gray-800">
+          {isSaved ? (
+            <BookmarkSlashIcon className="w-4" />
+          ) : (
+            <BookmarkIcon className="w-4" />
+          )}
+          <span className="text-sm">{isSaved ? 'Unsave' : 'Save'}</span>
+        </span>
+      </button>
+    );
   }
 
   return null;
