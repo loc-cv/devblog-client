@@ -33,6 +33,7 @@ specifiers:
   react-router-dom: '6.3'
   react-select: ^5.6.1
   react-toastify: ^9.1.1
+  spinkit: ^2.0.1
   tailwindcss: ^3.2.1
   typescript: ^4.8.4
   vite: ^3.2.1
@@ -55,6 +56,7 @@ dependencies:
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-select: 5.6.1_knhnagtyfncgg2hpin7s37uixq
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
+  spinkit: 2.0.1
   zod: 3.19.1
 
 devDependencies:
@@ -3087,6 +3089,10 @@ packages:
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     dev: true
+
+  /spinkit/2.0.1:
+    resolution: {integrity: sha512-oYBGY0GV1H1dX+ZdKnB6JVsYC1w/Xl20H111eb+WSS8nUYmlHgGb4y5buFSkzzceEeYYh5kMhXoAmoTpiQauiA==}
+    dev: false
 
   /string.prototype.matchall/4.0.7:
     resolution: {integrity: sha512-f48okCX7JiwVi1NXCVWcFnZgADDC/n2vePlQ/KUCNqCikLLilQvwjMO8+BHVKvgzH0JB0J9LEPgxOGT02RoETg==}

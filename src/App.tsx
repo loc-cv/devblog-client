@@ -12,7 +12,7 @@ import { PublicProfilePage } from 'features/users/pages/settingsPages/ProfileSet
 import { UserSettingsPage } from 'features/users/pages/settingsPages/SettingsPage';
 import { DashboardPage } from 'pages/dashboardPages/DashboardPage';
 import { PostsDashboardPage } from 'pages/dashboardPages/PostsDashboardPage';
-import { ReportsDashboardPage } from 'pages/dashboardPages/ReportsDashboardPage';
+// import { ReportsDashboardPage } from 'pages/dashboardPages/ReportsDashboardPage';
 import { TagsDashboardPage } from 'pages/dashboardPages/TagsDashboardPage';
 import { UsersDashboardPage } from 'pages/dashboardPages/UsersDashboardPage';
 import { HomePage } from 'pages/HomePage';
@@ -20,6 +20,7 @@ import { Fragment } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'spinkit/spinkit.css';
 
 export default function App() {
   return (

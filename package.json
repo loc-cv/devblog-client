@@ -27,6 +27,7 @@
     "react-router-dom": "6.3",
     "react-select": "^5.6.1",
     "react-toastify": "^9.1.1",
+    "spinkit": "^2.0.1",
     "zod": "^3.19.1"
   },
   "devDependencies": {
