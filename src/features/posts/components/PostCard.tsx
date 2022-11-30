@@ -1,6 +1,7 @@
 import { IPost } from 'features/api/interfaces';
 import { Link } from 'react-router-dom';
 import { EditButton } from './EditButton';
+import { PostTag } from './PostTag';
 import { SaveButton } from './SaveButton';
 
 type PostCardProps = {
@@ -46,12 +47,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         {/* Post tags */}
         <div className="mb-4 flex gap-2">
           {post.tags.map(tag => (
-            <span
-              key={tag.name}
-              className="rounded bg-blue-200 p-1 px-2 text-xs font-medium hover:bg-blue-400"
-            >
-              {tag.name.toUpperCase()}
-            </span>
+            <PostTag name={tag.name} key={tag.name} />
           ))}
         </div>
 
