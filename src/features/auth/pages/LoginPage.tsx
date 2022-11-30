@@ -69,44 +69,71 @@ export const LoginPage = () => {
   }
 
   return (
-    <form
-      className="flex max-w-md flex-col gap-5"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      {errorMessage && <p>{errorMessage}</p>}
+    <main className="mx-auto flex max-w-md flex-col gap-10">
+      <h1 className="text-center text-xl font-bold text-gray-800">
+        Log in to your DevBlog account
+      </h1>
+      <form
+        className="flex flex-col gap-3 px-5"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {errorMessage && (
+          <p className="rounded bg-red-300 p-2 px-4 text-base text-gray-900">
+            {errorMessage}
+          </p>
+        )}
 
-      <div className="flex flex-col">
-        <label htmlFor="email">Email</label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="email" className="text-gray-800">
+            Email
+          </label>
+          <input
+            type="text"
+            id="email"
+            {...register('email')}
+            className={`rounded p-2 ${
+              (isLoading || isSubmitting) && 'bg-gray-100'
+            }`}
+            disabled={isLoading || isSubmitting}
+          />
+          <p className="text-sm text-red-500">{errors.email?.message}</p>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="password" className="text-gray-800">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            {...register('password')}
+            className={`rounded p-2 ${
+              (isLoading || isSubmitting) && 'bg-gray-100'
+            }`}
+            disabled={isLoading || isSubmitting}
+          />
+          <p className="text-sm text-red-500">{errors.password?.message}</p>
+        </div>
+
         <input
-          type="text"
-          id="email"
-          {...register('email')}
+          type="submit"
+          value={isLoading || isSubmitting ? 'Loading...' : 'Login'}
           disabled={isLoading || isSubmitting}
+          className={`w-full rounded bg-black p-2 px-4 text-lg font-medium text-gray-100 ${
+            (isLoading || isSubmitting) && 'bg-gray-600'
+          }`}
         />
-        <p>{errors.email?.message}</p>
-      </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          {...register('password')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.password?.message}</p>
-      </div>
-
-      <input
-        type="submit"
-        value={isLoading || isSubmitting ? 'Loading...' : 'Login'}
-        disabled={isLoading || isSubmitting}
-      />
-
-      <p>
-        Don&apos;t have an account?{' '}
-        <Link to="/register">Create your account</Link>
-      </p>
-    </form>
+        <p className="text-center text-gray-600">
+          Don&apos;t have an account?{' '}
+          <Link
+            to="/register"
+            className="font-medium underline underline-offset-4 hover:underline-offset-8"
+          >
+            Create your account
+          </Link>
+        </p>
+      </form>
+    </main>
   );
 };
