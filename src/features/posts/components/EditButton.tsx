@@ -1,8 +1,8 @@
+import { PencilSquareIcon } from '@heroicons/react/20/solid';
 import { IPost } from 'features/api/interfaces';
 import { usersApiSlice } from 'features/users/usersApiSlice';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { PencilSquareIcon } from '@heroicons/react/20/solid';
 
 type EditButtonProps = {
   post: IPost;
