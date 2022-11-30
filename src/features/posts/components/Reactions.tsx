@@ -1,6 +1,6 @@
+import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/20/solid';
 import { IPost } from 'features/api/interfaces';
 import { usersApiSlice } from 'features/users/usersApiSlice';
-import { Fragment } from 'react';
 import { toast } from 'react-toastify';
 import {
   useToggleDislikePostMutation,
@@ -34,13 +34,21 @@ export const Reactions = ({ post }: ReactionsProps) => {
   };
 
   return (
-    <Fragment>
-      <button {...(currentUser && { onClick: handleToggleLike })}>
-        Likes: {post.likes.length}
+    <div className="flex gap-5">
+      <button
+        {...(currentUser && { onClick: handleToggleLike })}
+        className="flex gap-1 rounded text-gray-700 hover:text-gray-900"
+      >
+        <HandThumbUpIcon className="-mt-1 w-6" />
+        <span className="">{post.likes.length}</span>
       </button>
-      <button {...(currentUser && { onClick: handleToggleDislike })}>
-        Dislikes: {post.dislikes.length}
+      <button
+        {...(currentUser && { onClick: handleToggleDislike })}
+        className="flex gap-1 rounded text-gray-700 hover:text-gray-900"
+      >
+        <HandThumbDownIcon className="-mt-1 w-6" />
+        <span className="">{post.dislikes.length}</span>
       </button>
-    </Fragment>
+    </div>
   );
 };
