@@ -13,7 +13,9 @@ export const PostCard = ({ post }: PostCardProps) => {
     <article key={post._id} className="border-t-2 border-t-gray-200 py-10">
       <div className="mb-5 flex items-center justify-between">
         {/* Post updated at */}
-        <div className="text-lg text-gray-600">{post.updatedAt}</div>
+        <div className="text-base text-gray-600 sm:text-lg">
+          {post.updatedAt}
+        </div>
 
         {/* Likes/Dislikes/Save/Edit */}
         <div className="flex justify-end gap-1">
