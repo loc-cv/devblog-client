@@ -31,7 +31,7 @@ specifiers:
   react-quill: ^2.0.0
   react-redux: ^8.0.5
   react-router-dom: '6.3'
-  react-select: ^5.6.1
+  react-select: ^5.7.0
   react-toastify: ^9.1.1
   spinkit: ^2.0.1
   tailwindcss: ^3.2.1
@@ -54,7 +54,7 @@ dependencies:
   react-quill: 2.0.0_biqbaboplfbrettd7655fr4n2y
   react-redux: 8.0.5_nsgh7lqw2e2kb5wanadocemtdi
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
-  react-select: 5.6.1_knhnagtyfncgg2hpin7s37uixq
+  react-select: 5.7.0_knhnagtyfncgg2hpin7s37uixq
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
   spinkit: 2.0.1
   zod: 3.19.1
@@ -2866,8 +2866,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-select/5.6.1_knhnagtyfncgg2hpin7s37uixq:
-    resolution: {integrity: sha512-dYNRswtxUHW+F1Sc0HnxO5ryecPIAsG0+Cwyq5EIXZJBxCxUG2hFfQz41tc++30/2ISuuPglDikc4hEb4NsiuA==}
+  /react-select/5.7.0_knhnagtyfncgg2hpin7s37uixq:
+    resolution: {integrity: sha512-lJGiMxCa3cqnUr2Jjtg9YHsaytiZqeNOKeibv6WF5zbK/fPegZ1hg3y/9P1RZVLhqBTs0PfqQLKuAACednYGhQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
