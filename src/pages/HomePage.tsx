@@ -39,7 +39,9 @@ export const HomePage = () => {
   return (
     <Fragment>
       <div className="mb-10">
-        <h1 className="mb-4 text-5xl font-bold text-gray-800">Latest</h1>
+        <h1 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
+          Latest
+        </h1>
         <p className="text-base text-gray-600">
           A blog website created with{' '}
           <strong className="font-bold">React.js</strong> and{' '}
