@@ -123,7 +123,7 @@ export const PostForm = ({ post }: PostFormProps) => {
           {...register('title')}
           disabled={isLoading || isSubmitting}
           placeholder="An Awesome Post Is Coming"
-          className="rounded p-2 px-4 text-base font-bold placeholder:text-gray-400 md:text-2xl"
+          className="rounded border-gray-300 p-2 px-4 text-base font-bold placeholder:text-gray-400 md:text-2xl"
         />
         <p className="mt-1 text-sm text-red-500">{errors.title?.message}</p>
       </div>
@@ -156,7 +156,7 @@ export const PostForm = ({ post }: PostFormProps) => {
           {...register('summary')}
           disabled={isLoading || isSubmitting}
           placeholder="This post is gonna be awesome"
-          className="min-h-[100px] rounded p-2 px-4 placeholder:text-gray-400"
+          className="min-h-[100px] rounded border-gray-300 p-2 px-4 placeholder:text-gray-400"
         />
         <p className="mt-1 text-sm text-red-500">{errors.summary?.message}</p>
       </div>
