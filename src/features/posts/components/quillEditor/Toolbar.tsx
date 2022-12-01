@@ -73,7 +73,7 @@ export const formats = [
 ];
 
 export const Toolbar = () => (
-  <div id="toolbar">
+  <div id="toolbar" className="rounded-t">
     <span className="ql-formats">
       <select className="ql-size" defaultValue="normal">
         <option value="small">Small</option>

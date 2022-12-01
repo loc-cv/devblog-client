@@ -6,7 +6,7 @@
 
 /* Quill editor style */
 .ql-editor {
-  min-height: 300px !important;
+  min-height: 400px !important;
   line-height: 1.6;
 }
 
@@ -17,4 +17,10 @@
 
 .ql-container {
   font-family: 'Cabin', sans-serif;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.ql-container {
+  font-size: 100%;
 }
