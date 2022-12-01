@@ -110,19 +110,26 @@ export const PostForm = ({ post }: PostFormProps) => {
       {errorMessage && <p>{errorMessage}</p>}
 
       {/* Post title input */}
-      <div className="flex flex-col">
-        <label htmlFor="title">Title</label>
+      <div className="mb-6 flex flex-col text-gray-700">
+        <label
+          htmlFor="title"
+          className="mb-1 text-base font-medium md:text-xl"
+        >
+          Title
+        </label>
         <input
           type="text"
           id="title"
           {...register('title')}
           disabled={isLoading || isSubmitting}
+          placeholder="An Awesome Post Is Coming"
+          className="rounded p-2 px-4 text-base font-bold placeholder:text-gray-400 md:text-2xl"
         />
-        <p>{errors.title?.message}</p>
+        <p className="mt-1 text-sm text-red-500">{errors.title?.message}</p>
       </div>
 
       {/* Post tags input */}
-      <div>
+      <div className="mb-6">
         <Controller
           name="tags"
           control={control}
@@ -136,22 +143,26 @@ export const PostForm = ({ post }: PostFormProps) => {
             );
           }}
         />
-        <p>{errors.tags?.message}</p>
+        <p className="mt-1 text-sm text-red-500">{errors.tags?.message}</p>
       </div>
 
       {/* Post summary input */}
-      <div className="flex flex-col">
-        <label htmlFor="summary">Summary</label>
+      <div className="mb-8 flex flex-col text-gray-700">
+        <label htmlFor="summary" className="mb-1 text-base font-medium">
+          Summary
+        </label>
         <textarea
           id="summary"
           {...register('summary')}
           disabled={isLoading || isSubmitting}
+          placeholder="This post is gonna be awesome"
+          className="min-h-[100px] rounded p-2 px-4 placeholder:text-gray-400"
         />
-        <p>{errors.summary?.message}</p>
+        <p className="mt-1 text-sm text-red-500">{errors.summary?.message}</p>
       </div>
 
       {/* Post content input */}
-      <div>
+      <div className="mb-8">
         <Controller
           name="content"
           control={control}
@@ -165,13 +176,16 @@ export const PostForm = ({ post }: PostFormProps) => {
             );
           }}
         />
-        <p>{errors.content?.message}</p>
+        <p className="mt-1 text-sm text-red-500">{errors.content?.message}</p>
       </div>
 
       {/* Submit button */}
       <input
+        className={`rounded p-2 px-4 font-semibold text-gray-100 hover:cursor-pointer hover:bg-gray-700 ${
+          isLoading || isSubmitting ? 'bg-gray-700' : 'bg-black'
+        }`}
         type="submit"
-        value={isLoading || isSubmitting ? 'Loading...' : 'Save/Publish post'}
+        value={isLoading || isSubmitting ? 'Loading...' : 'Save / Publish'}
         disabled={isLoading || isSubmitting}
       />
     </form>
