@@ -14,7 +14,6 @@ const baseQuery = fetchBaseQuery({
   credentials: 'include',
 });
 
-// TODO: log user out right after 403 (forbidden) status
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,

@@ -1,8 +1,3 @@
-// show: name (first & last) username email profilePhoto bio
-// editable: name (first & last) username bio
-// update password
-// TODO: update profilePhoto
-
 import { Link, Outlet } from 'react-router-dom';
 
 export const UserSettingsPage = () => {
