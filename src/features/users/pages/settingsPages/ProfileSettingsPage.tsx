@@ -1,12 +1,14 @@
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { Button } from 'components/Button';
+import { Input } from 'components/Input';
 import {
   usersApiSlice,
   useUpdateCurrentUserMutation,
 } from 'features/users/usersApiSlice';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { z } from 'zod';
 
 const updateUserFormSchema = z.object({
   firstName: z
@@ -78,66 +80,67 @@ export const PublicProfilePage = () => {
   };
 
   return (
-    <form
-      className="flex max-w-md flex-col gap-5"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      {errorMessage && <p>{errorMessage}</p>}
+    <div>
+      <h2 className="mb-4 text-3xl font-bold text-gray-700">Public profile</h2>
+      <FormProvider {...methods}>
+        <form
+          className="flex max-w-md flex-col gap-3"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {errorMessage && <p>{errorMessage}</p>}
 
-      <div className="flex flex-col">
-        <label htmlFor="email">Email</label>
-        <input type="text" id="email" disabled value={currentUser?.email} />
-      </div>
+          <Input
+            label="Email"
+            type="text"
+            name="email"
+            disabled
+            value={currentUser?.email}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="firstName">First name</label>
-        <input
-          type="text"
-          id="firstName"
-          {...register('firstName')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.firstName?.message}</p>
-      </div>
+          <Input
+            label="First name"
+            type="text"
+            name="firstName"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="lastName">Last name</label>
-        <input
-          type="text"
-          id="lastName"
-          {...register('lastName')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.lastName?.message}</p>
-      </div>
+          <Input
+            label="Last name"
+            type="text"
+            name="lastName"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          {...register('username')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.username?.message}</p>
-      </div>
+          <Input
+            label="Username"
+            type="text"
+            name="username"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="bio">Bio</label>
-        <textarea
-          id="bio"
-          placeholder="Write something about you"
-          {...register('bio')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.bio?.message}</p>
-      </div>
+          <div className="flex flex-col">
+            <label htmlFor="bio">Bio</label>
+            <textarea
+              id="bio"
+              placeholder="Write something about you"
+              {...register('bio')}
+              disabled={isLoading || isSubmitting}
+              className={`rounded p-2 ${
+                (isSubmitting || isLoading) && 'bg-gray-100'
+              }`}
+            />
+            <p className="text-sm text-red-500">{errors.bio?.message}</p>
+          </div>
 
-      <input
-        type="submit"
-        value={isLoading || isSubmitting ? 'Saving...' : 'Save'}
-        disabled={isLoading || isSubmitting}
-      />
-    </form>
+          <Button
+            type="submit"
+            disabled={isLoading || isSubmitting}
+            loading={isSubmitting || isLoading}
+          >
+            Save
+          </Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 };

@@ -1,9 +1,11 @@
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useUpdateCurrentUserPasswordMutation } from 'features/users/usersApiSlice';
 import { toast } from 'react-toastify';
+import { Input } from 'components/Input';
+import { Button } from 'components/Button';
 
 const updatePasswordFormSchema = z
   .object({
@@ -52,10 +54,9 @@ export const PasswordPage = () => {
     useUpdateCurrentUserPasswordMutation();
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data: UpdatePasswordFormInput) => {
@@ -70,47 +71,45 @@ export const PasswordPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {errorMessage && <p>{errorMessage}</p>}
+    <div>
+      <h2 className="mb-4 text-3xl font-bold text-gray-700">Change password</h2>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex max-w-md flex-col gap-3"
+        >
+          {errorMessage && <p>{errorMessage}</p>}
 
-      <div className="flex flex-col">
-        <label htmlFor="currentPassword">Current password</label>
-        <input
-          type="password"
-          id="currentPassword"
-          {...register('currentPassword')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.currentPassword?.message}</p>
-      </div>
+          <Input
+            label="Current password"
+            type="password"
+            name="password"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="newPassword">New password</label>
-        <input
-          type="password"
-          id="newPassword"
-          {...register('newPassword')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.newPassword?.message}</p>
-      </div>
+          <Input
+            label="New password"
+            type="password"
+            name="newPassword"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <div className="flex flex-col">
-        <label htmlFor="newPasswordConfirm">Confirm new password</label>
-        <input
-          type="password"
-          id="newPasswordConfirm"
-          {...register('newPasswordConfirm')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.newPasswordConfirm?.message}</p>
-      </div>
+          <Input
+            label="Confirm new password"
+            type="password"
+            name="newPasswordConfirm"
+            disabled={isLoading || isSubmitting}
+          />
 
-      <input
-        type="submit"
-        value={isLoading || isSubmitting ? 'Updating...' : 'Update password'}
-        disabled={isLoading || isSubmitting}
-      />
-    </form>
+          <Button
+            type="submit"
+            loading={isSubmitting || isLoading}
+            disabled={isSubmitting || isLoading}
+          >
+            Update password
+          </Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 };

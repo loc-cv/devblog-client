@@ -6,6 +6,7 @@ type InputProps = {
   name: string;
   placeholder?: string;
   disabled?: boolean;
+  value?: string | number;
 };
 
 export const Input = ({
@@ -14,6 +15,7 @@ export const Input = ({
   name,
   placeholder,
   disabled,
+  value,
 }: InputProps) => {
   const {
     register,
@@ -28,6 +30,7 @@ export const Input = ({
         </label>
       )}
       <input
+        {...(value && { value })}
         type={type}
         id={name}
         {...register(name)}
