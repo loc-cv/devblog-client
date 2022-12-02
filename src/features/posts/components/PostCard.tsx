@@ -26,7 +26,7 @@ export const PostCard = ({ post }: PostCardProps) => {
 
       <div>
         {/* Post author */}
-        <div className="mb-4 flex items-center gap-1">
+        <div className="mb-2 flex items-center gap-1">
           <img
             src={post.author.profilePhoto}
             alt="Author"
