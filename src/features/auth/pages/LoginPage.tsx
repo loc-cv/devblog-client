@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from 'components/Button';
+import { Input } from 'components/Input';
 import { usersApiSlice } from 'features/users/usersApiSlice';
 import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import type { Location } from 'react-router-dom';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -26,10 +28,9 @@ export const LoginPage = () => {
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -61,7 +62,8 @@ export const LoginPage = () => {
     usersApiSlice.endpoints.getCurrentUser.useQueryState();
 
   if (isFetching) {
-    return <p>Loading...</p>;
+    // TODO: replace with some placeholder/spinner component
+    return null;
   }
 
   if (currentUser) {
@@ -73,64 +75,48 @@ export const LoginPage = () => {
       <h1 className="text-center text-xl font-bold text-gray-800">
         Log in to your DevBlog account
       </h1>
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-        {errorMessage && (
-          <p className="rounded bg-red-300 p-2 px-4 text-base text-gray-900">
-            {errorMessage}
-          </p>
-        )}
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-gray-800">
-            Email
-          </label>
-          <input
+      <FormProvider {...methods}>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+          {errorMessage && (
+            <p className="rounded bg-red-300 p-2 px-4 text-base text-gray-900">
+              {errorMessage}
+            </p>
+          )}
+
+          <Input
+            label="Email"
             type="text"
-            id="email"
-            {...register('email')}
-            className={`rounded p-2 ${
-              (isLoading || isSubmitting) && 'bg-gray-100'
-            }`}
+            name="email"
             disabled={isLoading || isSubmitting}
           />
-          <p className="text-sm text-red-500">{errors.email?.message}</p>
-        </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-gray-800">
-            Password
-          </label>
-          <input
+          <Input
+            label="Password"
             type="password"
-            id="password"
-            {...register('password')}
-            className={`rounded p-2 ${
-              (isLoading || isSubmitting) && 'bg-gray-100'
-            }`}
+            name="password"
             disabled={isLoading || isSubmitting}
           />
-          <p className="text-sm text-red-500">{errors.password?.message}</p>
-        </div>
 
-        <input
-          type="submit"
-          value={isLoading || isSubmitting ? 'Loading...' : 'Login'}
-          disabled={isLoading || isSubmitting}
-          className={`w-full rounded bg-black p-2 px-4 text-lg font-medium text-gray-100 ${
-            (isLoading || isSubmitting) && 'bg-gray-600'
-          }`}
-        />
-
-        <p className="text-center text-gray-600">
-          Don&apos;t have an account?{' '}
-          <Link
-            to="/register"
-            className="font-medium underline underline-offset-4 hover:underline-offset-8"
+          <Button
+            type="submit"
+            disabled={isLoading || isSubmitting}
+            loading={isSubmitting || isLoading}
           >
-            Create your account
-          </Link>
-        </p>
-      </form>
+            Register
+          </Button>
+
+          <p className="text-center text-gray-600">
+            Don&apos;t have an account?{' '}
+            <Link
+              to="/register"
+              className="font-medium underline underline-offset-4 hover:underline-offset-8"
+            >
+              Create your account
+            </Link>
+          </p>
+        </form>
+      </FormProvider>
     </main>
   );
 };
