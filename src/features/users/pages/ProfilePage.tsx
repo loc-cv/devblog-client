@@ -5,7 +5,6 @@ import { useGetPostsQuery } from 'features/posts/postsApiSlice';
 import { useGetSingleUserQuery } from 'features/users/usersApiSlice';
 import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
-import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 
 type Params = {
   username: string;

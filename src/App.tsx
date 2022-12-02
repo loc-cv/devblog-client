@@ -64,7 +64,6 @@ export default function App() {
           <Route path="profiles/:username" element={<ProfilePage />} />
           <Route element={<RequireUser allowedRoles={['user', 'admin']} />}>
             <Route path="settings" element={<UserSettingsPage />}>
-              <Route index element={<PublicProfilePage />} />
               <Route path="profile" element={<PublicProfilePage />} />
               <Route path="password" element={<PasswordPage />} />
             </Route>

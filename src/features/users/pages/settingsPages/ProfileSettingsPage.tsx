@@ -97,19 +97,25 @@ export const PublicProfilePage = () => {
             value={currentUser?.email}
           />
 
-          <Input
-            label="First name"
-            type="text"
-            name="firstName"
-            disabled={isLoading || isSubmitting}
-          />
+          <div className="flex justify-between sm:gap-2">
+            <div className="w-[49%]">
+              <Input
+                label="First name"
+                type="text"
+                name="firstName"
+                disabled={isLoading || isSubmitting}
+              />
+            </div>
 
-          <Input
-            label="Last name"
-            type="text"
-            name="lastName"
-            disabled={isLoading || isSubmitting}
-          />
+            <div className="w-[49%]">
+              <Input
+                label="Last name"
+                type="text"
+                name="lastName"
+                disabled={isLoading || isSubmitting}
+              />
+            </div>
+          </div>
 
           <Input
             label="Username"
