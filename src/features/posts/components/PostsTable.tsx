@@ -2,13 +2,13 @@
 
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useAppDispatch } from 'app/hooks';
 import { Modal } from 'components/Modal';
+import { DashboardTable } from 'components/Table';
 import { IPost } from 'features/api/interfaces';
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -78,7 +78,9 @@ export const PostsTable = () => {
         cell: ({ row }) => {
           return (
             <Link to={`/posts/${row.original._id}`} target="_blank">
-              <span>{row.original.title}</span>
+              <span className="font-semibold text-gray-700 hover:text-gray-800">
+                {row.original.title}
+              </span>
             </Link>
           );
         },
@@ -90,7 +92,7 @@ export const PostsTable = () => {
           const username = row.original.author.username;
           return (
             <Link to={`/profiles/${username}`} target="_blank">
-              <span>{username}</span>
+              <span className="font-semibold text-gray-600">@{username}</span>
             </Link>
           );
         },
@@ -111,6 +113,7 @@ export const PostsTable = () => {
               setSinglePost(row.original);
               setIsDeleteModalOpen(true);
             }}
+            className="rounded bg-red-200 p-1 px-2 font-medium hover:bg-red-300"
           >
             Delete
           </button>
@@ -131,7 +134,8 @@ export const PostsTable = () => {
   });
 
   if (isLoadingPosts) {
-    return <p>Loading...</p>;
+    // TODO: replace with some placeholder component
+    return null;
   }
 
   if (!postsQueryResult?.data) {
@@ -145,123 +149,33 @@ export const PostsTable = () => {
         setIsOpen={setIsDeleteModalOpen}
         title="Delete Post"
       >
-        <p>Do you really want to delete this post?</p>
-        <button
-          {...(singlePost && {
-            onClick: () => handleDeletePost(singlePost._id),
-          })}
-        >
-          Delete
-        </button>
+        <p className="mb-4 text-lg text-gray-700">
+          Do you really want to delete this post?
+        </p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="rounded bg-indigo-500 p-1 px-3 font-medium text-gray-100 hover:bg-indigo-600"
+            {...(singlePost && {
+              onClick: () => handleDeletePost(singlePost._id),
+            })}
+          >
+            Delete
+          </button>
+          <button
+            className="rounded bg-black p-1 px-3 font-medium text-gray-100 hover:bg-gray-700"
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </Modal>
 
       <main>
-        <table>
-          {/* Table header */}
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                      </div>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          {/* Table body */}
-          <tbody>
-            {table.getRowModel().rows.map(row => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {/* Pagination */}
-        <div className="h-2" />
-        <div className="flex items-center gap-2">
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>>'}
-          </button>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="w-16 rounded border p-1"
-            />
-          </span>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={e => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-          {isFetchingPosts ? 'Loading...' : null}
-        </div>
+        <DashboardTable
+          table={table}
+          type="posts"
+          isFetchingData={isFetchingPosts}
+        />
       </main>
     </Fragment>
   );

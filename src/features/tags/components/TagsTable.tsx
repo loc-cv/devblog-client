@@ -1,15 +1,16 @@
 /* eslint-disable import/named */
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useAppDispatch } from 'app/hooks';
 import { Modal } from 'components/Modal';
+import { DashboardTable } from 'components/Table';
 import { ITag } from 'features/api/interfaces';
 import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   tagsApiSlice,
@@ -75,6 +76,9 @@ export const TagsTable = () => {
       {
         accessorKey: 'name',
         header: 'Tag Name',
+        cell: ({ getValue }) => {
+          return <span className="font-bold">{getValue() as string}</span>;
+        },
       },
       {
         accessorKey: 'description',
@@ -84,10 +88,11 @@ export const TagsTable = () => {
         accessorKey: 'createdBy',
         header: 'Created By',
         cell: ({ row }) => {
+          const username = row.original.createdBy.username;
           return (
-            <div>
-              <span>{row.original.createdBy.username}</span>
-            </div>
+            <Link to={`/profiles/${username}`} target="_blank">
+              <span className="font-semibold text-gray-600">@{username}</span>
+            </Link>
           );
         },
       },
@@ -95,10 +100,11 @@ export const TagsTable = () => {
         accessorKey: 'lastUpdatedBy',
         header: 'Last Updated By',
         cell: ({ row }) => {
+          const username = row.original.lastUpdatedBy.username;
           return (
-            <div>
-              <span>{row.original.lastUpdatedBy.username}</span>
-            </div>
+            <Link to={`/profiles/${username}`} target="_blank">
+              <span className="font-semibold text-gray-600">@{username}</span>
+            </Link>
           );
         },
       },
@@ -106,8 +112,9 @@ export const TagsTable = () => {
         header: 'Actions',
         cell: ({ row }) => {
           return (
-            <div>
+            <div className="flex justify-center gap-1">
               <button
+                className="rounded bg-green-200 p-1 px-2 font-medium hover:bg-green-300"
                 onClick={() => {
                   setSingleTag(row.original);
                   setIsDeleteModalOpen(false);
@@ -117,6 +124,7 @@ export const TagsTable = () => {
                 Update
               </button>
               <button
+                className="rounded bg-red-200 p-1 px-2 font-medium hover:bg-red-300"
                 onClick={() => {
                   setSingleTag(row.original);
                   setIsUpdateModalOpen(false);
@@ -144,7 +152,8 @@ export const TagsTable = () => {
   });
 
   if (isLoadingTags) {
-    return <p>Loading...</p>;
+    // TODO: replace with some placeholder component
+    return null;
   }
 
   if (!tagsQueryResult?.data) {
@@ -165,121 +174,33 @@ export const TagsTable = () => {
         setIsOpen={setIsDeleteModalOpen}
         title="Delete Tag"
       >
-        <p>Do you really want to delete this tag?</p>
-        <button
-          {...(singleTag && { onClick: () => handleDeleteTag(singleTag.name) })}
-        >
-          Delete
-        </button>
+        <p className="mb-4 text-lg text-gray-700">
+          Do you really want to delete this tag?
+        </p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="rounded bg-indigo-500 p-1 px-3 font-medium text-gray-100 hover:bg-indigo-600"
+            {...(singleTag && {
+              onClick: () => handleDeleteTag(singleTag.name),
+            })}
+          >
+            Delete
+          </button>
+          <button
+            className="rounded bg-black p-1 px-3 font-medium text-gray-100 hover:bg-gray-700"
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </Modal>
 
       <main>
-        <table>
-          {/* Table header */}
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                      </div>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          {/* Table body */}
-          <tbody>
-            {table.getRowModel().rows.map(row => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {/* Pagination */}
-        <div className="h-2" />
-        <div className="flex items-center gap-2">
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>>'}
-          </button>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="w-16 rounded border p-1"
-            />
-          </span>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={e => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-          {isFetchingTags ? 'Loading...' : null}
-        </div>
+        <DashboardTable
+          table={table}
+          type="tags"
+          isFetchingData={isFetchingTags}
+        />
       </main>
     </Fragment>
   );

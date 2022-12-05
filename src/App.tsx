@@ -72,7 +72,6 @@ export default function App() {
           {/* Admin routes */}
           <Route element={<RequireUser allowedRoles={['admin']} />}>
             <Route path="dashboard" element={<DashboardPage />}>
-              <Route index element={<UsersDashboardPage />} />
               <Route path="users" element={<UsersDashboardPage />} />
               <Route path="posts" element={<PostsDashboardPage />} />
               <Route path="tags" element={<TagsDashboardPage />} />

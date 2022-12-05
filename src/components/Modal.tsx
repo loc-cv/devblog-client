@@ -43,7 +43,7 @@ export const Modal = ({ isOpen, children, setIsOpen, title }: ModelProps) => {
                 {title && (
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="mb-4 text-xl font-medium leading-6 text-gray-900"
                   >
                     {title}
                   </Dialog.Title>

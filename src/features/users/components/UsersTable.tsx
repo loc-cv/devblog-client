@@ -1,22 +1,22 @@
 /* eslint-disable import/named */
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useAppDispatch } from 'app/hooks';
+import { Modal } from 'components/Modal';
+import { DashboardTable } from 'components/Table';
 import { IUser } from 'features/api/interfaces';
 import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   useGetUsersQuery,
   usersApiSlice,
   useToggleBanUserMutation,
 } from '../usersApiSlice';
-import { useAppDispatch } from 'app/hooks';
-import { Link } from 'react-router-dom';
-import { Modal } from 'components/Modal';
 
 export const UsersTable = () => {
   const [isBanningModalOpen, setIsBanningModalOpen] = useState(false);
@@ -91,7 +91,7 @@ export const UsersTable = () => {
           const username = row.original.username;
           return (
             <Link to={`/profiles/${username}`} target="_blank">
-              <span>{username}</span>
+              <span className="font-semibold text-gray-600">@{username}</span>
             </Link>
           );
         },
@@ -104,7 +104,7 @@ export const UsersTable = () => {
           const email = row.original.email;
           return (
             <Link to={`/profiles/${username}`} target="_blank">
-              <span>{email}</span>
+              <span className="font-semibold text-gray-600">{email}</span>
             </Link>
           );
         },
@@ -116,8 +116,18 @@ export const UsersTable = () => {
       {
         accessorKey: 'isBanned',
         header: 'Status',
-        cell: ({ getValue }) =>
-          getValue() ? <span>Banned</span> : <span>Active</span>,
+        cell: ({ getValue }) => {
+          const isBanned = getValue();
+          return (
+            <span
+              className={`${
+                isBanned ? 'text-red-700' : 'text-green-700'
+              } font-semibold uppercase`}
+            >
+              {isBanned ? 'Banned' : 'Active'}
+            </span>
+          );
+        },
       },
       {
         header: 'Actions',
@@ -129,6 +139,11 @@ export const UsersTable = () => {
                 setSingleUser(row.original);
                 setIsBanningModalOpen(true);
               }}
+              className={`${
+                isBanned
+                  ? 'bg-green-200 hover:bg-green-300'
+                  : 'bg-red-200 hover:bg-red-300'
+              } rounded p-1 px-2 font-medium`}
             >
               {isBanned ? 'Unban' : 'Ban'}
             </button>
@@ -150,7 +165,8 @@ export const UsersTable = () => {
   });
 
   if (isLoadingUsers) {
-    return <p>Loading...</p>;
+    // TODO: replace with some placeholder component
+    return null;
   }
 
   if (!usersQueryResult?.data) {
@@ -164,125 +180,33 @@ export const UsersTable = () => {
         setIsOpen={setIsBanningModalOpen}
         title={singleUser?.isBanned ? 'Unban User' : 'Ban User'}
       >
-        <p>
+        <p className="mb-4 text-lg text-gray-700">
           Do you really want to {singleUser?.isBanned ? 'unban' : 'ban'} this
           user?
         </p>
-        <button
-          {...(singleUser && {
-            onClick: () => handleToggleBan(singleUser._id),
-          })}
-        >
-          Confirm
-        </button>
+        <div className="flex justify-end gap-2">
+          <button
+            className="rounded bg-indigo-500 p-1 px-3 font-medium text-gray-100 hover:bg-indigo-600"
+            {...(singleUser && {
+              onClick: () => handleToggleBan(singleUser._id),
+            })}
+          >
+            Confirm
+          </button>
+          <button
+            className="rounded bg-black p-1 px-3 font-medium text-gray-100 hover:bg-gray-700"
+            onClick={() => setIsBanningModalOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </Modal>
       <main>
-        <table>
-          {/* Table header */}
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                      </div>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          {/* Table body */}
-          <tbody>
-            {table.getRowModel().rows.map(row => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {/* Pagination */}
-        <div className="h-2" />
-        <div className="flex items-center gap-2">
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>>'}
-          </button>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="w-16 rounded border p-1"
-            />
-          </span>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={e => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-          {isFetchingUsers ? 'Loading...' : null}
-        </div>
+        <DashboardTable
+          table={table}
+          type="users"
+          isFetchingData={isFetchingUsers}
+        />
       </main>
     </Fragment>
   );

@@ -13,7 +13,7 @@ import { Fragment, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const DropdownOptions = [
-  { text: 'Dashboard', url: '/dashboard', Icon: ChartBarSquareIcon },
+  { text: 'Dashboard', url: '/dashboard/users', Icon: ChartBarSquareIcon },
   { text: 'Create Post', url: '/posts/new', Icon: PencilSquareIcon },
   { text: 'Reading List', url: '/posts/saved', Icon: BookOpenIcon },
   { text: 'Settings', url: '/settings/profile', Icon: Cog6ToothIcon },

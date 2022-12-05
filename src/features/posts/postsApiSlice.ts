@@ -19,7 +19,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       { limit?: number; page?: number; author?: string; savedby?: string }
     >({
       query: args => {
-        const { limit = 10, page = 1, author = '', savedby = '' } = args;
+        const { limit = 5, page = 1, author = '', savedby = '' } = args;
         return {
           url: '/posts',
           method: 'GET',

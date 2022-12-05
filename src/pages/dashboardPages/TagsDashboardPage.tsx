@@ -8,7 +8,11 @@ export const TagsDashboardPage = () => {
 
   return (
     <Fragment>
-      <button type="button" onClick={() => setIsModalOpen(true)}>
+      <button
+        type="button"
+        onClick={() => setIsModalOpen(true)}
+        className="mb-4 rounded bg-indigo-500 p-2 px-4 text-gray-50 hover:bg-indigo-600"
+      >
         Create new tag
       </button>
 

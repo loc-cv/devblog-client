@@ -63,35 +63,46 @@ export const TagForm = ({ tag }: TagFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Tag name input */}
-      <div className="flex flex-col">
-        <label htmlFor="name">Tag name</label>
+      <div className="flex flex-col gap-3">
+        {/* Tag name input */}
+        <div className="flex flex-col">
+          <label htmlFor="name" className="mb-1 text-base font-medium">
+            Tag name
+          </label>
+          <input
+            type="text"
+            id="title"
+            {...register('name')}
+            disabled={isLoading || isSubmitting}
+            className="rounded border-gray-400 p-2"
+          />
+          <p className="mt-1 text-sm text-red-500">{errors.name?.message}</p>
+        </div>
+
+        {/* Tag description input */}
+        <div className="flex flex-col">
+          <label htmlFor="description" className="mb-1 text-base font-medium">
+            Tag description
+          </label>
+          <textarea
+            id="description"
+            {...register('description')}
+            disabled={isLoading || isSubmitting}
+            className="min-h-[100px] rounded border-gray-400 p-2 px-4"
+          />
+          <p className="mt-1 text-sm text-red-500">
+            {errors.description?.message}
+          </p>
+        </div>
+
+        {/* Submit button */}
         <input
-          type="text"
-          id="title"
-          {...register('name')}
+          type="submit"
+          value={isLoading || isSubmitting ? 'Loading...' : 'Save tag'}
           disabled={isLoading || isSubmitting}
+          className="rounded bg-black p-2 px-4 text-gray-100 hover:cursor-pointer hover:bg-gray-800"
         />
-        <p>{errors.name?.message}</p>
       </div>
-
-      {/* Tag description input */}
-      <div className="flex flex-col">
-        <label htmlFor="description">Tag description</label>
-        <textarea
-          id="description"
-          {...register('description')}
-          disabled={isLoading || isSubmitting}
-        />
-        <p>{errors.description?.message}</p>
-      </div>
-
-      {/* Submit button */}
-      <input
-        type="submit"
-        value={isLoading || isSubmitting ? 'Loading...' : 'Save tag'}
-        disabled={isLoading || isSubmitting}
-      />
     </form>
   );
 };
