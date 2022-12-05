@@ -1,15 +1,31 @@
 import { Spinner } from 'components/Spinner';
 import { PostList } from 'features/posts/components/PostList';
 import { useGetPostsQuery } from 'features/posts/postsApiSlice';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FaceFrownIcon } from '@heroicons/react/20/solid';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
+// {/* <p className="mt-6 text-center text-2xl">Loading more posts...</p> */}
 export const HomePage = () => {
+  const [page, setPage] = useState(1);
+
   const {
     data: postsQueryResult,
     isLoading,
     error,
-  } = useGetPostsQuery({}, { refetchOnMountOrArgChange: true });
+  } = useGetPostsQuery({ page }, { refetchOnMountOrArgChange: true });
+
+  const [posts, setPosts] = useState(postsQueryResult?.data || []);
+
+  useEffect(() => {
+    if (postsQueryResult) {
+      if (page === 1) {
+        if (posts.length !== 0) return;
+      }
+      setPosts([...posts, ...postsQueryResult.data]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postsQueryResult]);
 
   const renderPostList = () => {
     if (isLoading) {
@@ -31,7 +47,26 @@ export const HomePage = () => {
       );
     }
     if (postsQueryResult) {
-      return <PostList posts={postsQueryResult.data} />;
+      return (
+        <InfiniteScroll
+          style={{ overflow: 'hidden' }}
+          next={() => setPage(prevPage => prevPage + 1)}
+          hasMore={postsQueryResult.data.length > 0}
+          dataLength={posts.length}
+          loader={
+            <div className="mt-4">
+              <Spinner className="mx-auto h-12 w-12" />
+            </div>
+          }
+          endMessage={
+            <p className="mt-8 text-center text-2xl font-medium">
+              Yay! You have seen it all!
+            </p>
+          }
+        >
+          {<PostList posts={posts} />}
+        </InfiniteScroll>
+      );
     }
     return null;
   };

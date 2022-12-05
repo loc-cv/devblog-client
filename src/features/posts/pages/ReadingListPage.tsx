@@ -1,12 +1,15 @@
 import { FaceFrownIcon } from '@heroicons/react/20/solid';
 import { Spinner } from 'components/Spinner';
 import { usersApiSlice } from 'features/users/usersApiSlice';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
 import { PostList } from '../components/PostList';
 import { useGetPostsQuery } from '../postsApiSlice';
 
 export const ReadingListPage = () => {
+  const [page, setPage] = useState(1);
+
   const { data: currentUser, isFetching } =
     usersApiSlice.endpoints.getCurrentUser.useQueryState();
 
@@ -15,8 +18,21 @@ export const ReadingListPage = () => {
     isLoading,
     error,
   } = useGetPostsQuery({
+    page,
     savedby: currentUser?.username,
   });
+
+  const [posts, setPosts] = useState(postsQueryResult?.data || []);
+
+  useEffect(() => {
+    if (postsQueryResult) {
+      if (page === 1) {
+        if (posts.length !== 0) return;
+      }
+      setPosts([...posts, ...postsQueryResult.data]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postsQueryResult]);
 
   const renderPostList = () => {
     if (isLoading || isFetching) {
@@ -38,7 +54,7 @@ export const ReadingListPage = () => {
       );
     }
     if (postsQueryResult) {
-      if (postsQueryResult.data.length === 0) {
+      if (posts.length === 0) {
         return (
           <div className="mt-24 text-center text-2xl font-medium text-gray-700">
             <p className="mb-2 text-xl md:text-2xl">
@@ -52,7 +68,22 @@ export const ReadingListPage = () => {
           </div>
         );
       }
-      return <PostList posts={postsQueryResult.data} />;
+      return (
+        <InfiniteScroll
+          style={{ overflow: 'hidden' }}
+          next={() => setPage(prevPage => prevPage + 1)}
+          hasMore={postsQueryResult.data.length > 0}
+          dataLength={posts.length}
+          loader={
+            <div className="mt-4">
+              <Spinner className="mx-auto h-12 w-12" />
+            </div>
+          }
+          endMessage={null}
+        >
+          {<PostList posts={posts} />}
+        </InfiniteScroll>
+      );
     }
     return null;
   };
