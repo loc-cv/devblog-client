@@ -4,7 +4,7 @@ specifiers:
   '@headlessui/react': ^1.7.4
   '@heroicons/react': ^2.0.13
   '@hookform/resolvers': ^2.9.10
-  '@reduxjs/toolkit': ^1.8.6
+  '@reduxjs/toolkit': ^1.9.1
   '@tailwindcss/forms': ^0.5.3
   '@tanstack/react-table': ^8.7.0
   '@types/react': ^18.0.24
@@ -45,7 +45,7 @@ dependencies:
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
   '@hookform/resolvers': 2.9.10_react-hook-form@7.39.1
-  '@reduxjs/toolkit': 1.8.6_k4ae6lp43ej6mezo3ztvx6pykq
+  '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
   '@tanstack/react-table': 8.7.0_biqbaboplfbrettd7655fr4n2y
   async-mutex: 0.4.0
   dayjs: 1.11.6
@@ -620,8 +620,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@reduxjs/toolkit/1.8.6_k4ae6lp43ej6mezo3ztvx6pykq:
-    resolution: {integrity: sha512-4Ia/Loc6WLmdSOzi7k5ff7dLK8CgG2b8aqpLsCAJhazAzGdp//YBUSaj0ceW6a3kDBDNRrq5CRwyCS0wBiL1ig==}
+  /@reduxjs/toolkit/1.9.1_k4ae6lp43ej6mezo3ztvx6pykq:
+    resolution: {integrity: sha512-HikrdY+IDgRfRYlCTGUQaiCxxDDgM1mQrRbZ6S1HFZX5ZYuJ4o8EstNmhTwHdPl2rTmLxzwSu0b3AyeyTlR+RA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
       react-redux: ^7.2.1 || ^8.0.2
