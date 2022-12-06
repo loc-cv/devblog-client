@@ -1,38 +1,61 @@
-import { Spinner } from 'components/Spinner';
-import { PostList } from 'features/posts/components/PostList';
-import { useGetPostsQuery } from 'features/posts/postsApiSlice';
-import { Fragment, useEffect, useState } from 'react';
 import { FaceFrownIcon } from '@heroicons/react/20/solid';
+import { useAppSelector } from 'app/hooks';
+import { Spinner } from 'components/Spinner';
+import { IListResponse, IPost } from 'features/api/interfaces';
+import { PostList } from 'features/posts/components/PostList';
+import { SearchPostsForm } from 'features/posts/components/SearchPostsForm';
+import { useGetPostsQuery } from 'features/posts/postsApiSlice';
+import { selectSearchString } from 'features/posts/postsSlice';
+import { Fragment, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const HomePage = () => {
-  const [page, setPage] = useState(1);
+  const [localPage, setLocalPage] = useState(1);
+  const searchString = useAppSelector(selectSearchString);
 
   const {
     data: postsQueryResult,
     isLoading,
     error,
-  } = useGetPostsQuery({ page }, { refetchOnMountOrArgChange: true });
+  } = useGetPostsQuery(
+    { page: localPage, search: searchString },
+    { refetchOnMountOrArgChange: false },
+  );
 
-  const [posts, setPosts] = useState(postsQueryResult?.data || []);
+  const {
+    page: remotePage,
+    data: fetchedPosts,
+    totalPages,
+    total,
+  } = (postsQueryResult as IListResponse<IPost>) || {};
+
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
-    if (postsQueryResult) {
-      if (page === 1) {
-        if (posts.length !== 0) return;
+    setPosts([]);
+    setLocalPage(1);
+  }, [searchString]);
+
+  useEffect(() => {
+    if (fetchedPosts && fetchedPosts.length && fetchedPosts.length > 0) {
+      if (localPage === 1) {
+        setPosts(fetchedPosts);
+      } else if (localPage === remotePage) {
+        setPosts(posts => [...posts, ...fetchedPosts]);
       }
-      setPosts([...posts, ...postsQueryResult.data]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postsQueryResult]);
+  }, [fetchedPosts]);
+
+  const loader = (
+    <div className="mt-32 flex items-center justify-center">
+      <Spinner className="h-20 w-20" />
+    </div>
+  );
 
   const renderPostList = () => {
     if (isLoading) {
-      return (
-        <div className="mt-32 flex items-center justify-center">
-          <Spinner className="h-20 w-20" />
-        </div>
-      );
+      return loader;
     }
     if (error) {
       return (
@@ -46,22 +69,25 @@ export const HomePage = () => {
       );
     }
     if (postsQueryResult) {
+      if (total === 0) {
+        return (
+          <div className="mt-32 text-center font-medium text-gray-700">
+            <p className="text-2xl md:text-4xl">There&apos;s nothing here :(</p>
+          </div>
+        );
+      }
       return (
         <InfiniteScroll
           style={{ overflow: 'hidden' }}
-          next={() => setPage(prevPage => prevPage + 1)}
-          hasMore={postsQueryResult.data.length > 0}
+          next={() => setLocalPage(prevPage => prevPage + 1)}
+          hasMore={totalPages > localPage}
           dataLength={posts.length}
-          loader={
-            <div className="mt-4">
-              <Spinner className="mx-auto h-12 w-12" />
-            </div>
-          }
-          endMessage={
-            <p className="mt-8 text-center text-2xl font-medium">
-              Yay! You have seen it all!
-            </p>
-          }
+          loader={loader}
+          // endMessage={
+          //   <p className="mt-8 text-center text-2xl font-medium">
+          //     Hmm... Seems like there&apos;s nothing more...
+          //   </p>
+          // }
         >
           {<PostList posts={posts} />}
         </InfiniteScroll>
@@ -72,7 +98,7 @@ export const HomePage = () => {
 
   return (
     <Fragment>
-      <div className="mb-10">
+      <section className="mb-10">
         <h1 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
           Latest
         </h1>
@@ -81,8 +107,9 @@ export const HomePage = () => {
           <strong className="font-bold">React.js</strong> and{' '}
           <strong className="font-bold">Tailwind.css</strong>
         </p>
-      </div>
-      <main>{renderPostList()}</main>
+      </section>
+      <SearchPostsForm />
+      <main className="mt-6">{renderPostList()}</main>
     </Fragment>
   );
 };
