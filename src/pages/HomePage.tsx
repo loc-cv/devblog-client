@@ -5,7 +5,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { FaceFrownIcon } from '@heroicons/react/20/solid';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-// {/* <p className="mt-6 text-center text-2xl">Loading more posts...</p> */}
 export const HomePage = () => {
   const [page, setPage] = useState(1);
 
