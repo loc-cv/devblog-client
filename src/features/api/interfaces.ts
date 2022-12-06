@@ -6,7 +6,7 @@ export interface IGenericResponse {
 
 export interface IListResponse<T> {
   page: number;
-  perPage: number;
+  results: number;
   total: number;
   totalPages: number;
   data: T[];

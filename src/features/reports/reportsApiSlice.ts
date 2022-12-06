@@ -18,13 +18,13 @@ export const reportsApiSlice = apiSlice.injectEndpoints({
       },
       transformResponse: (result: {
         page: number;
-        perPage: number;
+        results: number;
         total: number;
         totalPages: number;
         data: { reports: IReport[] };
       }) => ({
         page: result.page,
-        perPage: result.perPage,
+        results: result.results,
         total: result.total,
         totalPages: result.totalPages,
         data: result.data.reports,

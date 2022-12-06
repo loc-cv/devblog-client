@@ -20,13 +20,13 @@ export const tagsApiSlice = apiSlice.injectEndpoints({
       // Just to make sure
       transformResponse: (result: {
         page: number;
-        perPage: number;
+        results: number;
         total: number;
         totalPages: number;
         data: { tags: ITag[] };
       }) => ({
         page: result.page,
-        perPage: result.perPage,
+        results: result.results,
         total: result.total,
         totalPages: result.totalPages,
         data: result.data.tags,

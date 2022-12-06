@@ -16,25 +16,37 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     /* Query posts */
     getPosts: builder.query<
       IListResponse<IPost>,
-      { limit?: number; page?: number; author?: string; savedby?: string }
+      {
+        limit?: number;
+        page?: number;
+        author?: string;
+        savedby?: string;
+        search?: string;
+      }
     >({
       query: args => {
-        const { limit = 5, page = 1, author = '', savedby = '' } = args;
+        const {
+          limit = 5,
+          page = 1,
+          author = '',
+          savedby = '',
+          search = '',
+        } = args;
         return {
           url: '/posts',
           method: 'GET',
-          params: { limit, page, author, savedby },
+          params: { limit, page, author, savedby, search },
         };
       },
       transformResponse: (result: {
         page: number;
-        perPage: number;
+        results: number;
         total: number;
         totalPages: number;
         data: { posts: IPost[] };
       }) => ({
         page: result.page,
-        perPage: result.perPage,
+        results: result.results,
         total: result.total,
         totalPages: result.totalPages,
         data: result.data.posts

@@ -26,13 +26,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       },
       transformResponse: (result: {
         page: number;
-        perPage: number;
+        results: number;
         total: number;
         totalPages: number;
         data: { users: IUser[] };
       }) => ({
         page: result.page,
-        perPage: result.perPage,
+        results: result.results,
         total: result.total,
         totalPages: result.totalPages,
         data: result.data.users,
