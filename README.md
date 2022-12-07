@@ -4,7 +4,7 @@
 
 ### Description
 
-This is the front-end of Medium-like web app created with **Reactjs**, **Typescript**, **Redux Toolkit** and **Tailwind CSS**, where users can read or publish their own blogs. You can find the backend source code of the app [here](https://github.com/loc-cv/devblog-server).
+This is the front-end of Medium-like web app created with **Reactjs**, **Typescript**, **Redux Toolkit** and **Tailwind CSS**, where users can read or publish their own blog posts. You can find the back-end source code of the app [here](https://github.com/loc-cv/devblog-server).
 
 ### Overview
 
