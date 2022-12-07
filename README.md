@@ -36,9 +36,10 @@ This is the front-end of Medium-like web app created with **Reactjs**, **Redux T
 
 In case you want to run this project locally, clone the repository to your local machine:
 
-- Make sure you have docker and docker-compose installed on your machine
-- Navigate to your cloned directory
-- run <code>docker-compose up</code>
+- Make sure you have correctly set up the [server](https://github.com/loc-cv/devblog-server).
+- Make sure you have docker and docker-compose installed on your machine.
+- Navigate to your cloned directory.
+- run <code>docker-compose up</code>.
 
 ### Todo
 
